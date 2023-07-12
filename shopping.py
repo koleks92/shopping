@@ -42,7 +42,7 @@ def month_to_number(month):
             return 3
         case "May":
             return 4
-        case "Jun":
+        case "June":
             return 5
         case "Jul":
             return 6
@@ -85,11 +85,13 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
+    evidence = []
+    labels = []
+
     with open(filename, 'r') as file:
         reader = csv.reader(file)
         next(reader)
 
-        evidence = []
         for row in reader:
             evidence.append([
                 int(row[0]),                                        # Administrative, an integer
@@ -111,15 +113,20 @@ def load_data(filename):
                 int(1 if row[16] == "TRUE" else 0)                  # Weekend, an integer 0 (if false) or 1 (if true)
                 ])
             
-    print(evidence[250])
+            labels.append(
+                int(1 if row[17] == "TRUE" else 0)                  # Revenue, 0 if False, 1 if True
+            )
+            
+        return (evidence, labels)
 
 def train_model(evidence, labels):
     """
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
-
+    model = KNeighborsClassifier(n_neighbors=1)
+    model.fit(evidence, labels)
+    return model
 
 def evaluate(labels, predictions):
     """
@@ -136,8 +143,29 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    raise NotImplementedError
 
+    # Variables for amont of true/false in labels and correct predictions
+    label_true = 0
+    pred_true = 0
+    label_false = 0
+    pred_false = 0
+
+    # Loop through labels, and predictions
+    for label, pred in zip(labels, predictions):
+        if label == 1:
+            label_true += 1
+            if pred == 1:
+                pred_true += 1
+        if label == 0:
+            label_false += 1
+            if pred == 0:
+                pred_false += 1
+
+    # Compute results
+    sensitivity = pred_true / label_true
+    specifity = pred_false / label_false
+            
+    return (sensitivity, specifity)
 
 if __name__ == "__main__":
     main()
