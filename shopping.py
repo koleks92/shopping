@@ -30,6 +30,32 @@ def main():
     print(f"True Positive Rate: {100 * sensitivity:.2f}%")
     print(f"True Negative Rate: {100 * specificity:.2f}%")
 
+def month_to_number(month):
+    match month:
+        case "Jan":
+            return 0
+        case "Feb":
+            return 1
+        case "Mar":
+            return 2
+        case "Apr":
+            return 3
+        case "May":
+            return 4
+        case "Jun":
+            return 5
+        case "Jul":
+            return 6
+        case "Aug":
+            return 7
+        case "Sep":
+            return 8
+        case "Oct":
+            return 9
+        case "Nov":
+            return 10
+        case "Dec":
+            return 11
 
 def load_data(filename):
     """
@@ -59,8 +85,33 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+    with open(filename, 'r') as file:
+        reader = csv.reader(file)
+        next(reader)
 
+        evidence = []
+        for row in reader:
+            evidence.append([
+                int(row[0]),                                        # Administrative, an integer
+                float(row[1]),                                      # Administrative_Duration, a floating point number
+                int(row[2]),                                        # Informational, an integer
+                float(row[3]),                                      # Informational_Duration, a floating point number
+                int(row[4]),                                        # ProductRelated, an integer
+                float(row[5]),                                      # ProductRelated_Duration, a floating point number
+                float(row[6]),                                      # BounceRates, a floating point number
+                float(row[7]),                                      # ExitRates, a floating point number
+                float(row[8]),                                      # PageValues, a floating point number
+                float(row[9]),                                      # SpecialDay, a floating point number
+                month_to_number(row[10]),                           # Month, an index from 0 (January) to 11 (December)
+                int(row[11]),                                       # OperatingSystems, an integer
+                int(row[12]),                                       # Browser, an integer
+                int(row[13]),                                       # Region, an integer
+                int(row[14]),                                       # TrafficType, an integer
+                int(1 if row[15] == "Returning_Visitor" else 0),    # Returning_Visitor
+                int(1 if row[16] == "TRUE" else 0)                  # Weekend, an integer 0 (if false) or 1 (if true)
+                ])
+            
+    print(evidence[250])
 
 def train_model(evidence, labels):
     """
