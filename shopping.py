@@ -30,32 +30,6 @@ def main():
     print(f"True Positive Rate: {100 * sensitivity:.2f}%")
     print(f"True Negative Rate: {100 * specificity:.2f}%")
 
-def month_to_number(month):
-    match month:
-        case "Jan":
-            return 0
-        case "Feb":
-            return 1
-        case "Mar":
-            return 2
-        case "Apr":
-            return 3
-        case "May":
-            return 4
-        case "June":
-            return 5
-        case "Jul":
-            return 6
-        case "Aug":
-            return 7
-        case "Sep":
-            return 8
-        case "Oct":
-            return 9
-        case "Nov":
-            return 10
-        case "Dec":
-            return 11
 
 def load_data(filename):
     """
@@ -85,6 +59,36 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
+
+    def month_to_number(month):
+        """ Change month to integer """
+        match month:
+            case "Jan":
+                return 0
+            case "Feb":
+                return 1
+            case "Mar":
+                return 2
+            case "Apr":
+                return 3
+            case "May":
+                return 4
+            case "June":
+                return 5
+            case "Jul":
+                return 6
+            case "Aug":
+                return 7
+            case "Sep":
+                return 8
+            case "Oct":
+                return 9
+            case "Nov":
+                return 10
+            case "Dec":
+                return 11
+
+
     evidence = []
     labels = []
 
@@ -126,6 +130,7 @@ def train_model(evidence, labels):
     """
     model = KNeighborsClassifier(n_neighbors=1)
     model.fit(evidence, labels)
+    
     return model
 
 def evaluate(labels, predictions):
