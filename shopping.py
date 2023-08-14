@@ -59,33 +59,18 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    def month_to_number(month):
-        """ Change month to integer """
-        match month:
-            case "Jan":
-                return 0
-            case "Feb":
-                return 1
-            case "Mar":
-                return 2
-            case "Apr":
-                return 3
-            case "May":
-                return 4
-            case "June":
-                return 5
-            case "Jul":
-                return 6
-            case "Aug":
-                return 7
-            case "Sep":
-                return 8
-            case "Oct":
-                return 9
-            case "Nov":
-                return 10
-            case "Dec":
-                return 11
+    months = {'Jan': 0,
+              'Feb': 1,
+              'Mar': 2,
+              'Apr': 3,
+              'May': 4,
+              'June': 5,
+              'Jul': 6,
+              'Aug': 7,
+              'Sep': 8,
+              'Oct': 9,
+              'Nov': 10,
+              'Dec': 11}
 
 
     evidence = []
@@ -107,7 +92,7 @@ def load_data(filename):
                 float(row[7]),                                      # ExitRates, a floating point number
                 float(row[8]),                                      # PageValues, a floating point number
                 float(row[9]),                                      # SpecialDay, a floating point number
-                month_to_number(row[10]),                           # Month, an index from 0 (January) to 11 (December)
+                months[row[10]],                           # Month, an index from 0 (January) to 11 (December)
                 int(row[11]),                                       # OperatingSystems, an integer
                 int(row[12]),                                       # Browser, an integer
                 int(row[13]),                                       # Region, an integer
