@@ -59,7 +59,6 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-
     def month_to_number(month):
         """ Change month to integer """
         match month:
@@ -121,7 +120,11 @@ def load_data(filename):
                 int(1 if row[17] == "TRUE" else 0)                  # Revenue, 0 if False, 1 if True
             )
             
+        if len(evidence) != len(labels):
+            sys.exit("Error while loading data")
+
         return (evidence, labels)
+
 
 def train_model(evidence, labels):
     """
@@ -132,6 +135,7 @@ def train_model(evidence, labels):
     model.fit(evidence, labels)
     
     return model
+
 
 def evaluate(labels, predictions):
     """
@@ -148,7 +152,7 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-
+    
     # Variables for amont of true/false in labels and correct predictions
     label_true = 0
     pred_true = 0
@@ -171,6 +175,7 @@ def evaluate(labels, predictions):
     specifity = pred_false / label_false
             
     return (sensitivity, specifity)
+
 
 if __name__ == "__main__":
     main()
